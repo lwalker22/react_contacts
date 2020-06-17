@@ -4,6 +4,13 @@ import { Form } from 'semantic-ui-react';
 class ContactForm extends Component {
   state = { firstName: '', phone: '' }
 
+  componentDidMount() {
+    if (this.props.id) {
+      const { firstName, phone } = this.props
+      this.setState({ firstName, phone  })
+    }
+  }
+
   // change the state to be the user input
   handleChange = (e) => {
     const { name, value } = e.target
@@ -14,8 +21,12 @@ class ContactForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // add the contact to the array of obj
-    this.props.addContact(this.state)
+    if (this.props.id) {
+      this.props.updateContact( this.props.id, this.state )
+    } else {
+      // add the contact to the array of obj
+      this.props.addContact(this.state)
+    }
     // clear out the form
     this.setState({ firstName: '', phone: '' })
   }

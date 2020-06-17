@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header } from 'semantic-ui-react';
+import { Header, Button, Icon } from 'semantic-ui-react';
 import Contacts from './components/contacts/Contacts';
 import ContactForm from './components/contacts/ContactForm';
 
@@ -8,7 +8,11 @@ class App extends Component {
     { id: 1, firstName: 'John', phone: '123-123-1233'},
     { id: 2, firstName: 'Sally', phone: '123-333-1233'},
     { id: 3, firstName: 'Alex', phone: '123-125-1233'},
-  ]}
+  ],
+    showForm: true
+  }
+
+  toggleForm = () => this.setState({ showForm: !this.state.showForm })
 
   getId = () => {
     // NOTE We are just using this as a helper function for id's since we aren't using a db yet
@@ -33,15 +37,41 @@ class App extends Component {
     this.setState({ contacts })
   }
 
+  updateContact = (id, updatedContact) => {
+    const { contacts } = this.state;
+    this.setState({
+      contacts: contacts.map( c => {
+        if (c.id === id) {
+          return { ...updatedContact }
+        }
+        return c
+      })
+    })
+  }
+
   render() {
-    const { contacts } = this.state
+    const { contacts, showForm } = this.state
     return(
       <div>
-        <ContactForm addContact={this.addContact} />
+        <div>
+          <Button icon color='blue' onClick={this.toggleForm}>
+            <Icon name={ showForm ? 'angle double up': 'angle double down'} />
+          </Button>
+          { 
+            showForm ?
+            <ContactForm addContact={this.addContact} />
+            :
+            null
+          }
+        </div>
         <Header size="huge" color='blue' textAlign='center'>
           Contact list
         </Header>
-        <Contacts contacts={contacts} deleteContact={this.deleteContact}/>
+        <Contacts 
+          contacts={contacts} 
+          deleteContact={this.deleteContact} 
+          updateContact={this.updateContact}
+        />
       </div>
     )
   }
