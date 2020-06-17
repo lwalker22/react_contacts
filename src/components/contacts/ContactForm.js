@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
+
 class ContactForm extends Component {
   state = { firstName: '', phone: '' }
+
   // change the state to be the user input
   handleChange = (e) => {
     const { name, value } = e.target
@@ -9,6 +11,7 @@ class ContactForm extends Component {
     // this.setState({ firstName: 'bob' })
     // this.setState({ phone: '1123-123-1233' })
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     // add the contact to the array of obj
@@ -16,6 +19,7 @@ class ContactForm extends Component {
     // clear out the form
     this.setState({ firstName: '', phone: '' })
   }
+
   render() {
     const { firstName, phone } = this.state
     return(
@@ -24,6 +28,7 @@ class ContactForm extends Component {
           name='firstName'
           value={firstName}
           onChange={this.handleChange}
+
           required
           label='First Name'
         />
@@ -31,6 +36,7 @@ class ContactForm extends Component {
           name='phone'
           value={phone}
           onChange={this.handleChange}
+
           required
           label='phone'
         />
@@ -39,4 +45,5 @@ class ContactForm extends Component {
     )
   }
 }
+
 export default ContactForm;
